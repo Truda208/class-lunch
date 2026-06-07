@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>211 午餐繳費登記表</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f4f9; }
+        .card { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #333; }
+        .input-box { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>211 午餐繳費</h1>
+    <div class="input-box">
+        <input type="text" id="name" placeholder="同學姓名">
+        <input type="number" id="price" placeholder="餐點金額">
+        <button onclick="addItem()">新增登記</button>
+    </div>
+    <ul id="list"></ul>
+    <div style="margin-top:20px; font-weight:bold;">總金額：$<span id="total">0</span></div>
+</div>
+
+<script>
+    let total = 0;
+    function addItem() {
+        const name = document.getElementById('name').value;
+        const price = parseInt(document.getElementById('price').value) || 0;
+        if (!name) return;
+
+        const li = document.createElement('li');
+        li.innerHTML = `${name} - $${price} <button onclick="removeItem(this, ${price})">刪除</button>`;
+        document.getElementById('list').appendChild(li);
+
+        total += price;
+        document.getElementById('total').innerText = total;
+        document.getElementById('name').value = '';
+        document.getElementById('price').value = '';
+    }
+
+    function removeItem(btn, price) {
+        total -= price;
+        document.getElementById('total').innerText = total;
+        btn.parentElement.remove();
+    }
+</script>
+
+</body>
+</html>
+
